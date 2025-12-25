@@ -1,0 +1,229 @@
+"<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        // Core field_entries table - stores metadata about form submissions
+        Schema::create('field_entries', function (Blueprint $table) {
+            $table->id();
+            
+            // Basic Information
+            $table->string('entry_code')->unique(); // Unique identifier for the entry (e.g., ENTRY-2024-001)
+            $table->string('title'); // Title of the entry/observation
+            
+            // Relationships
+            $table->foreignId('field_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('farm_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('farmer_id')->nullable()->constrained()->nullOnDelete();
+            
+            // Form Type Classification
+            $table->enum('form_type', [
+                'training',          // Training attendance/participation
+                'production',        // Production activities (planting, harvesting, etc.)
+                'inspection',        // Field/farm inspection
+                'input_application', // Fertilizer, pesticide application
+                'harvest',           // Harvest records
+                'soil_test',         // Soil testing results
+                'irrigation',        // Irrigation records
+                'pest_disease',      // Pest/disease monitoring
+                'weather',           // Weather observations
+                'equipment',         // Equipment usage/maintenance
+                'labor',             // Labor records
+                'certification',     // Certification-related forms
+                'other'              // Other types
+            ])->default('production');
+            
+            // Form Subtype (for more specific categorization)
+            $table->string('form_subtype')->nullable();
+            
+            // Entry Period
+            $table->date('entry_date'); // Date when the activity/observation occurred
+            $table->time('entry_time')->nullable(); // Time of the activity
+            $table->year('season_year'); // Agricultural season year
+            $table->string('season_period')->nullable(); // e.g., 'wet season', 'dry season', 'spring', etc.
+            
+            // Status and Workflow
+            $table->enum('status', [
+                'draft',           // Still being filled
+                'submitted',       // Submitted for review
+                'reviewed',        // Reviewed by supervisor
+                'approved',        // Approved and finalized
+                'rejected',        // Rejected/needs correction
+                'archived'         // Archived/old records
+            ])->default('draft');
+            
+            $table->timestamp('submitted_at')->nullable();
+            $table->timestamp('reviewed_at')->nullable();
+            $table->timestamp('approved_at')->nullable();
+            
+            // Review/Approval Chain
+            $table->foreignId('submitted_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('reviewed_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('approved_by')->nullable()->constrained('users')->nullOnDelete();
+            
+            // Location Context
+            $table->decimal('latitude', 10, 8)->nullable();
+            $table->decimal('longitude', 11, 8)->nullable();
+            $table->string('location_notes')->nullable();
+            
+            // Weather Conditions (at time of entry)
+            $table->string('weather_condition')->nullable(); // sunny, rainy, cloudy, etc.
+            $table->decimal('temperature', 5, 2)->nullable(); // in Celsius
+            $table->decimal('humidity', 5, 2)->nullable(); // percentage
+            $table->decimal('rainfall', 6, 2)->nullable(); // mm
+            
+            // Metadata
+            $table->text('notes')->nullable(); // General notes/comments
+            $table->text('summary')->nullable(); // Brief summary of the entry
+            
+            // Audit
+            $table->foreignId('created_by')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->timestamps();
+            $table->softDeletes();
+            
+            // Indexes
+            $table->index('entry_code');
+            $table->index('field_id');
+            $table->index('farm_id');
+            $table->index('farmer_id');
+            $table->index('form_type');
+            $table->index('entry_date');
+            $table->index('status');
+            $table->index(['season_year', 'form_type']);
+            $table->index('created_by');
+        });
+        
+        // Field Entry Data - Flexible JSON storage for form-specific data
+        Schema::create('field_entry_data', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('field_entry_id')->constrained()->cascadeOnDelete();
+            
+            // Section-based data storage
+            $table->string('section_name'); // e.g., 'crop_observations', 'input_usage', 'labor_details'
+            $table->integer('section_order')->default(0); // For ordering sections
+            
+            // Flexible JSON data storage
+            $table->json('data'); // Stores all form field data for this section
+            
+            // Metadata
+            $table->text('notes')->nullable();
+            $table->timestamps();
+            
+            // Indexes
+            $table->index('field_entry_id');
+            $table->index(['field_entry_id', 'section_name']);
+            $table->index('section_order');
+        });
+        
+        // Field Entry Attachments - For photos, documents, etc.
+        Schema::create('field_entry_attachments', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('field_entry_id')->constrained()->cascadeOnDelete();
+            
+            // File Information
+            $table->string('file_name');
+            $table->string('file_path'); // Storage path
+            $table->string('file_type'); // image/jpeg, application/pdf, etc.
+            $table->string('file_size')->nullable(); // in bytes or human-readable
+            $table->string('mime_type')->nullable();
+            
+            // Attachment Details
+            $table->string('attachment_type')->nullable(); // photo, document, signature, etc.
+            $table->string('caption')->nullable();
+            $table->text('description')->nullable();
+            
+            // Thumbnails for images
+            $table->string('thumbnail_path')->nullable();
+            
+            // Metadata
+            $table->foreignId('uploaded_by')->constrained('users')->cascadeOnDelete();
+            $table->timestamps();
+            $table->softDeletes();
+            
+            // Indexes
+            $table->index('field_entry_id');
+            $table->index('attachment_type');
+            $table->index('uploaded_by');
+        });
+        
+        // Field Entry Comments/Discussions
+        Schema::create('field_entry_comments', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('field_entry_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('parent_id')->nullable()->constrained('field_entry_comments')->nullOnDelete();
+            
+            // Comment Content
+            $table->text('content');
+            $table->boolean('is_internal_note')->default(false); // Internal notes vs visible comments
+            
+            // Status
+            $table->enum('type', ['comment', 'question', 'clarification', 'correction'])->default('comment');
+            $table->boolean('resolved')->default(false);
+            $table->timestamp('resolved_at')->nullable();
+            $table->foreignId('resolved_by')->nullable()->constrained('users')->nullOnDelete();
+            
+            // Metadata
+            $table->timestamps();
+            $table->softDeletes();
+            
+            // Indexes
+            $table->index('field_entry_id');
+            $table->index('user_id');
+            $table->index('parent_id');
+            $table->index('resolved');
+            $table->index('is_internal_note');
+        });
+        
+        // Field Entry Workflow History
+        Schema::create('field_entry_workflow_history', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('field_entry_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            
+            // Workflow Action
+            $table->enum('action', [
+                'created',
+                'updated',
+                'submitted',
+                'reviewed',
+                'approved',
+                'rejected',
+                'returned',
+                'commented',
+                'attached_file',
+                'status_changed'
+            ]);
+            
+            // Details
+            $table->string('from_status')->nullable();
+            $table->string('to_status')->nullable();
+            $table->text('notes')->nullable();
+            $table->json('changes')->nullable(); // JSON diff of changes
+            
+            // Metadata
+            $table->timestamps();
+            
+            // Indexes
+            $table->index('field_entry_id');
+            $table->index('user_id');
+            $table->index('action');
+            $table->index('created_at');
+        });
+    }
+    
+    public function down(): void
+    {
+        Schema::dropIfExists('field_entry_workflow_history');
+        Schema::dropIfExists('field_entry_comments');
+        Schema::dropIfExists('field_entry_attachments');
+        Schema::dropIfExists('field_entry_data');
+        Schema::dropIfExists('field_entries');
+    }
+};"

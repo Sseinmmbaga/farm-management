@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Http\Controllers\Dashboard;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+class SupervisorDashboardController extends Controller
+{
+    public function index()
+    {
+        return view('dashboard.supervisor.index', ['title' => 'Supervisor Dashboard']);
+    }
+
+    public function team()
+    {
+        return view('dashboard.supervisor-team', ['title' => 'Team Management']);
+    }
+
+    public function dataReview()
+    {
+        return view('dashboard.supervisor-data-review', ['title' => 'Data Review']);
+    }
+}
