@@ -31,7 +31,7 @@
                                         </div>
                                     </div>
                                     <a href="{{ route('regions.index') }}" class="btn btn-sm btn-outline-primary mt-2 w-100">
-                                        Manage Regions
+                                        {{ auth()->user()->hasViewOnlyAccess() ? 'View' : 'Manage' }} Regions
                                     </a>
                                 </div>
                             </div>
@@ -49,7 +49,7 @@
                                         </div>
                                     </div>
                                     <a href="{{ route('districts.index') }}" class="btn btn-sm btn-outline-success mt-2 w-100">
-                                        Manage Districts
+                                        {{ auth()->user()->hasViewOnlyAccess() ? 'View' : 'Manage' }} Districts
                                     </a>
                                 </div>
                             </div>
@@ -67,7 +67,7 @@
                                         </div>
                                     </div>
                                     <a href="{{ route('villages.index') }}" class="btn btn-sm btn-outline-warning mt-2 w-100">
-                                        Manage Villages
+                                        {{ auth()->user()->hasViewOnlyAccess() ? 'View' : 'Manage' }} Villages
                                     </a>
                                 </div>
                             </div>
@@ -85,7 +85,7 @@
                                         </div>
                                     </div>
                                     <a href="{{ route('subvillages.index') }}" class="btn btn-sm btn-outline-info mt-2 w-100">
-                                        Manage Subvillages
+                                        {{ auth()->user()->hasViewOnlyAccess() ? 'View' : 'Manage' }} Subvillages
                                     </a>
                                 </div>
                             </div>
@@ -149,9 +149,11 @@
                                         <td colspan="7" class="text-center py-4">
                                             <i class="fas fa-map fa-3x text-muted mb-3"></i>
                                             <p class="text-muted">No regions found</p>
+                                            @if(!auth()->user()->hasViewOnlyAccess())
                                             <a href="{{ route('regions.create') }}" class="btn btn-primary">
                                                 <i class="fas fa-plus me-1"></i> Add First Region
                                             </a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforelse

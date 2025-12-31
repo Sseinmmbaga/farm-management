@@ -46,6 +46,10 @@
     <i class="fas fa-clipboard-list"></i> All Farm Records
 </a>
 
+<a href="{{ route('visits.index') }}" class="nav-link {{ request()->routeIs('visits.*') ? 'active' : '' }}">
+    <i class="fas fa-calendar-check"></i> Farm Visits
+</a>
+
 <a href="{{ route('farm-records.new.history') }}" class="nav-link {{ request()->routeIs('farm-records.new.history') || request()->routeIs('farm-records.existing.history') ? 'active' : '' }}">
     <i class="fas fa-history"></i> Farmer History
 </a>
@@ -74,4 +78,25 @@
 
 <a href="#" class="nav-link">
     <i class="fas fa-download"></i> Export Reports
+</a>
+
+{{-- Digital Forms Section --}}
+<div class="nav-section-header">
+    <span>Digital Forms</span>
+</div>
+
+<a href="{{ route('leave-requests.index') }}" class="nav-link {{ request()->routeIs('leave-requests.*') ? 'active' : '' }}">
+    <i class="fas fa-calendar-minus"></i> Leave Requests
+</a>
+
+<a href="{{ route('financial-requests.index') }}" class="nav-link {{ request()->routeIs('financial-requests.*') ? 'active' : '' }}">
+    <i class="fas fa-money-bill-wave"></i> Financial Requests
+</a>
+
+<a href="{{ route('stock-requisitions.index') }}" class="nav-link {{ request()->routeIs('stock-requisitions.*') ? 'active' : '' }}">
+    <i class="fas fa-boxes"></i> Stock Requisitions
+</a>
+
+<a href="{{ route('performance-reports.index') }}" class="nav-link {{ request()->routeIs('performance-reports.*') ? 'active' : '' }}">
+    <i class="fas fa-chart-line"></i> Performance Reports
 </a>

@@ -18,9 +18,7 @@ Route::middleware(['auth'])->group(function () {
     // Stock Categories
     Route::resource('stock-categories', StockCategoryController::class);
 
-    // Stock Items
-    Route::resource('stock', StockController::class);
-
+    // Stock sub-routes MUST come BEFORE the resource to avoid {stock} matching "distributions", "requests", etc.
     Route::prefix('stock')->name('stock.')->group(function () {
         // Stock Alerts
         Route::get('alerts/low-stock', [StockController::class, 'lowStock'])->name('low-stock');
@@ -54,10 +52,21 @@ Route::middleware(['auth'])->group(function () {
         Route::post('requests/{request}/approve', [StockRequestController::class, 'approve'])->name('requests.approve');
         Route::post('requests/{request}/reject', [StockRequestController::class, 'reject'])->name('requests.reject');
         Route::post('requests/{request}/fulfill', [StockRequestController::class, 'fulfill'])->name('requests.fulfill');
+        Route::post('requests/{request}/submit', [StockRequestController::class, 'submit'])->name('requests.submit');
+        Route::post('requests/{request}/cancel', [StockRequestController::class, 'cancel'])->name('requests.cancel');
 
         // Reports
         Route::get('reports/summary', [StockController::class, 'reportSummary'])->name('reports.summary');
         Route::get('reports/movements', [StockController::class, 'reportMovements'])->name('reports.movements');
         Route::get('reports/valuation', [StockController::class, 'reportValuation'])->name('reports.valuation');
+
+        // Export
+        Route::get('export/csv', [StockController::class, 'exportCsv'])->name('export.csv');
+        Route::get('export/summary', [StockController::class, 'exportSummaryCsv'])->name('export.summary');
+        Route::get('export/movements', [StockController::class, 'exportMovementsCsv'])->name('export.movements');
+        Route::get('export/valuation', [StockController::class, 'exportValuationCsv'])->name('export.valuation');
     });
+
+    // Stock Items Resource - MUST come AFTER prefix group to avoid {stock} catching "distributions", "requests", etc.
+    Route::resource('stock', StockController::class);
 });

@@ -18,11 +18,13 @@ class FarmPolicy
     public function viewAny(User $user): bool
     {
         // All authenticated users can view farms, but with different filters
+        // ICS Inspectors have view-only access for inspection purposes
         return $user->hasAnyRole([
-            UserRole::ADMIN, 
-            UserRole::SUPERVISOR, 
-            UserRole::EXTENSION_OFFICER, 
-            UserRole::FARMER
+            UserRole::ADMIN,
+            UserRole::SUPERVISOR,
+            UserRole::EXTENSION_OFFICER,
+            UserRole::FARMER,
+            UserRole::ICS_INSPECTOR,
         ]);
     }
 
@@ -35,18 +37,23 @@ class FarmPolicy
         if ($user->hasRole(UserRole::ADMIN) || $user->hasRole(UserRole::SUPERVISOR)) {
             return true;
         }
-        
+
+        // ICS Inspectors can view all farms (view-only for inspection purposes)
+        if ($user->hasRole(UserRole::ICS_INSPECTOR)) {
+            return true;
+        }
+
         // Extension officers can view farms of their assigned farmers
         if ($user->hasRole(UserRole::EXTENSION_OFFICER)) {
             $assignedFarmerIds = Farmer::where('extension_officer_id', $user->id)->pluck('id')->toArray();
             return in_array($farm->farmer_id, $assignedFarmerIds);
         }
-        
+
         // Farmers can only view their own farms
         if ($user->hasRole(UserRole::FARMER)) {
             return $user->farmer && $user->farmer->id == $farm->farmer_id;
         }
-        
+
         return false;
     }
 

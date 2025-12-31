@@ -11,25 +11,21 @@ class TrainingProgram extends Model
 
     protected $fillable = [
         'name',
+        'name_sw',
+        'code',
         'description',
-        'category',
-        'target_audience',
-        'duration_days',
-        'is_active',
         'objectives',
-        'curriculum',
-        'prerequisites',
-        'materials_provided',
-        'certification_offered',
+        'category',
+        'duration_hours',
+        'is_mandatory',
+        'is_active',
+        'created_by',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
-        'duration_days' => 'integer',
-        'objectives' => 'array',
-        'curriculum' => 'array',
-        'prerequisites' => 'array',
-        'materials_provided' => 'array',
+        'is_mandatory' => 'boolean',
+        'duration_hours' => 'integer',
     ];
 
     // ==================== RELATIONSHIPS ====================
@@ -37,6 +33,18 @@ class TrainingProgram extends Model
     public function sessions(): HasMany
     {
         return $this->hasMany(TrainingSession::class, 'training_program_id');
+    }
+
+    public function attendances()
+    {
+        return $this->hasManyThrough(
+            TrainingAttendance::class,
+            TrainingSession::class,
+            'training_program_id', // Foreign key on TrainingSession
+            'training_session_id', // Foreign key on TrainingAttendance
+            'id', // Local key on TrainingProgram
+            'id'  // Local key on TrainingSession
+        );
     }
 
     // ==================== SCOPES ====================

@@ -58,6 +58,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('status/in-progress', [FindingController::class, 'inProgress'])->name('in-progress');
         Route::get('status/resolved', [FindingController::class, 'resolved'])->name('resolved');
         Route::post('{finding}/resolve', [FindingController::class, 'resolve'])->name('resolve');
+        Route::post('{finding}/reopen', [FindingController::class, 'reopen'])->name('reopen');
     });
 
     // Corrective Actions
@@ -65,13 +66,16 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('corrective-actions')->name('corrective-actions.')->group(function () {
         Route::post('{action}/complete', [CorrectiveActionController::class, 'complete'])->name('complete');
         Route::post('{action}/verify', [CorrectiveActionController::class, 'verify'])->name('verify');
+        Route::post('{action}/comment', [CorrectiveActionController::class, 'addComment'])->name('comment');
     });
 
     // Farmer Certifications
     Route::prefix('certifications')->name('certifications.')->group(function () {
         Route::get('/', [ComplianceController::class, 'certifications'])->name('index');
+        Route::post('/', [ComplianceController::class, 'storeCertification'])->name('store');
         Route::get('farmer/{farmer}', [ComplianceController::class, 'farmerCertifications'])->name('farmer');
         Route::post('farmer/{farmer}/update-status', [ComplianceController::class, 'updateCertificationStatus'])->name('update-status');
+        Route::post('bulk-update-status', [ComplianceController::class, 'bulkUpdateCertificationStatus'])->name('bulk-update-status');
     });
 
     // ICS Reports
@@ -80,5 +84,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('compliance', [InspectionController::class, 'reportCompliance'])->name('compliance');
         Route::get('findings', [FindingController::class, 'report'])->name('findings');
         Route::get('inspector/{inspector}', [InspectionController::class, 'inspectorReport'])->name('inspector');
+    });
+
+    // Export Reports
+    Route::prefix('export')->name('export.')->group(function () {
+        Route::get('/', [ComplianceController::class, 'exportIndex'])->name('index');
+        Route::get('inspections', [InspectionController::class, 'exportInspections'])->name('inspections');
+        Route::get('findings', [FindingController::class, 'exportFindings'])->name('findings');
+        Route::get('corrective-actions', [CorrectiveActionController::class, 'exportCorrectiveActions'])->name('corrective-actions');
+        Route::get('certifications', [ComplianceController::class, 'exportCertifications'])->name('certifications');
+        Route::post('bulk', [ComplianceController::class, 'bulkExport'])->name('bulk');
     });
 });

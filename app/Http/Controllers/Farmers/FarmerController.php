@@ -16,7 +16,18 @@ class FarmerController extends Controller
 {
     public function __construct(
         protected FarmerService $farmerService
-    ) {}
+    ) {
+        // Restrict CRUD actions for training coordinators and ICS inspectors (view-only access)
+        $this->middleware(function ($request, $next) {
+            if (auth()->user()->isTrainingCoordinator()) {
+                abort(403, 'Training coordinators have view-only access to farmers.');
+            }
+            if (auth()->user()->isIcsInspector()) {
+                abort(403, 'ICS inspectors have view-only access to farmers.');
+            }
+            return $next($request);
+        })->only(['create', 'store', 'edit', 'update', 'destroy', 'pending', 'approve', 'reject', 'bulkApprove', 'assign', 'bulkAssign', 'assignments']);
+    }
 
     public function index(Request $request)
     {
@@ -61,9 +72,20 @@ class FarmerController extends Controller
     {
         $farmer = $this->farmerService->create($request->validated());
 
+        $message = 'Farmer registered successfully.';
+
+        // If password was auto-generated, include it in the success message
+        if ($farmer->generatedPassword) {
+            $message .= ' Login credentials - Email: ' . $farmer->user->email . ', Password: ' . $farmer->generatedPassword;
+        }
+
         return redirect()
             ->route('farmers.show', $farmer)
-            ->with('success', 'Farmer registered successfully.');
+            ->with('success', $message)
+            ->with('credentials', [
+                'email' => $farmer->user->email,
+                'password' => $farmer->generatedPassword,
+            ]);
     }
 
     public function show(Farmer $farmer)

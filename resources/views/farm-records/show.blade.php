@@ -135,6 +135,7 @@
             <a href="{{ route('farm-records.index') }}" class="btn btn-outline-secondary">
                 <i class="fas fa-arrow-left"></i> Back
             </a>
+            @if(!auth()->user()->hasViewOnlyAccess())
             <a href="{{ route('farm-records.edit', $farmRecord) }}" class="btn btn-warning">
                 <i class="fas fa-edit"></i> Edit
             </a>
@@ -146,6 +147,7 @@
                     <i class="fas fa-trash"></i> Delete
                 </button>
             </form>
+            @endif
         </div>
     </div>
 

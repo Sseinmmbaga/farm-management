@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
@@ -90,6 +91,38 @@ class User extends Authenticatable
         return $this->hasMany(\App\Models\Farmers\Farmer::class, 'extension_officer_id');
     }
 
+    public function notificationPreference(): HasOne
+    {
+        return $this->hasOne(\App\Models\Notifications\NotificationPreference::class);
+    }
+
+    public function notificationLogs(): HasMany
+    {
+        return $this->hasMany(\App\Models\Notifications\NotificationLog::class);
+    }
+
+    // ==================== NOTIFICATION HELPERS ====================
+
+    public function getNotificationPreferences(): \App\Models\Notifications\NotificationPreference
+    {
+        return \App\Models\Notifications\NotificationPreference::getOrCreateForUser($this);
+    }
+
+    public function shouldReceiveNotification(string $category, string $channel = 'database'): bool
+    {
+        return $this->getNotificationPreferences()->shouldNotify($category, $channel);
+    }
+
+    public function routeNotificationForMail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function routeNotificationForSms(): ?string
+    {
+        return $this->phone;
+    }
+
     // Role check helpers
     public function isAdmin(): bool
     {
@@ -134,6 +167,15 @@ class User extends Authenticatable
     public function isFarmer(): bool
     {
         return $this->role === UserRole::FARMER;
+    }
+
+    /**
+     * Check if user has view-only access to data (no edit/delete permissions).
+     * Applies to ICS Inspectors and Training Coordinators.
+     */
+    public function hasViewOnlyAccess(): bool
+    {
+        return $this->isIcsInspector() || $this->isTrainingCoordinator();
     }
 
     public function hasRole(UserRole $role): bool

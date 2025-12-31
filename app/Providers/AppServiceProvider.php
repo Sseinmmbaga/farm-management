@@ -9,11 +9,13 @@ use App\Models\Farms\Field;
 use App\Models\Tasks\Task;
 use App\Models\Tasks\Labor;
 use App\Models\User;
+use App\Models\ICS\Inspection;
 use App\Policies\FarmPolicy;
 use App\Policies\FieldPolicy;
 use App\Policies\TaskPolicy;
 use App\Policies\LaborPolicy;
 use App\Policies\UserPolicy;
+use App\Policies\InspectionPolicy;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -36,5 +38,6 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Task::class, TaskPolicy::class);
         Gate::policy(Labor::class, LaborPolicy::class);
         Gate::policy(User::class, UserPolicy::class);
+        Gate::policy(Inspection::class, InspectionPolicy::class);
     }
 }

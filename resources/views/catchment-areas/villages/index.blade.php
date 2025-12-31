@@ -14,9 +14,11 @@
                     <a href="{{ route('catchment-areas.index') }}" class="btn btn-dark btn-sm me-2">
                         <i class="fas fa-arrow-left"></i> Back
                     </a>
+                    @if(!auth()->user()->hasViewOnlyAccess())
                     <a href="{{ route('villages.create') }}" class="btn btn-dark">
                         <i class="fas fa-plus me-1"></i> Add Village
                     </a>
+                    @endif
                 </div>
             </div>
         </div>
@@ -123,6 +125,7 @@
                                         <a href="{{ route('villages.show', $village) }}" class="btn btn-sm btn-outline-primary" title="View">
                                             <i class="fas fa-eye"></i>
                                         </a>
+                                        @if(!auth()->user()->hasViewOnlyAccess())
                                         <a href="{{ route('villages.edit', $village) }}" class="btn btn-sm btn-outline-warning" title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </a>
@@ -130,6 +133,7 @@
                                                 onclick="confirmDelete('{{ route('villages.destroy', $village) }}', '{{ $village->name }}')">
                                             <i class="fas fa-trash"></i>
                                         </button>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
@@ -138,9 +142,11 @@
                                 <td colspan="8" class="text-center py-4">
                                     <i class="fas fa-home fa-3x text-muted mb-3"></i>
                                     <p class="text-muted">No villages found</p>
+                                    @if(!auth()->user()->hasViewOnlyAccess())
                                     <a href="{{ route('villages.create') }}" class="btn btn-warning">
                                         <i class="fas fa-plus me-1"></i> Add First Village
                                     </a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforelse

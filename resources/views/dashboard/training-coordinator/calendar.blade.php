@@ -113,15 +113,15 @@
             <div class="calendar-header">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="d-flex gap-2">
-                        <a href="?month={{ now()->subMonth()->format('Y-m') }}" class="btn btn-outline-secondary btn-sm">
+                        <a href="?month={{ ($currentMonth ?? now())->subMonth()->format('Y-m') }}" class="btn btn-outline-secondary btn-sm">
                             <i class="fas fa-chevron-left"></i>
                         </a>
-                        <a href="?month={{ now()->addMonth()->format('Y-m') }}" class="btn btn-outline-secondary btn-sm">
+                        <a href="?month={{ ($currentMonth ?? now())->addMonth()->format('Y-m') }}" class="btn btn-outline-secondary btn-sm">
                             <i class="fas fa-chevron-right"></i>
                         </a>
                         <a href="?month={{ now()->format('Y-m') }}" class="btn btn-outline-primary btn-sm">Today</a>
                     </div>
-                    <h4 class="mb-0">{{ now()->format('F Y') }}</h4>
+                    <h4 class="mb-0">{{ ($currentMonth ?? now())->format('F Y') }}</h4>
                     <div class="legend">
                         <span class="legend-item">
                             <span class="legend-color" style="background-color: #fff3cd;"></span> Scheduled
@@ -150,17 +150,17 @@
 
                     <!-- Calendar Days -->
                     @php
-                        $startOfMonth = now()->startOfMonth();
-                        $endOfMonth = now()->endOfMonth();
+                        $startOfMonth = ($currentMonth ?? now())->startOfMonth();
+                        $endOfMonth = ($currentMonth ?? now())->endOfMonth();
                         $startDayOfWeek = $startOfMonth->dayOfWeek;
                         $daysInMonth = $endOfMonth->day;
-                        $today = now()->day;
+                        $today = ($currentMonth ?? now())->isCurrentMonth() ? now()->day : null;
                     @endphp
 
                     {{-- Previous month days --}}
                     @for($i = 0; $i < $startDayOfWeek; $i++)
                         <div class="calendar-day other-month">
-                            <div class="calendar-date">{{ now()->startOfMonth()->subDays($startDayOfWeek - $i)->day }}</div>
+                            <div class="calendar-date">{{ $startOfMonth->copy()->subDays($startDayOfWeek - $i)->day }}</div>
                         </div>
                     @endfor
 

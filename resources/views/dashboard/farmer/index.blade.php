@@ -113,35 +113,23 @@
             <div class="recent-activity">
                 <h4>Recent Activity</h4>
                 <div class="mt-3">
+                    @forelse($recentActivity ?? [] as $activity)
                     <div class="activity-item">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <strong>Farm Inspection Completed</strong>
-                                <p class="mb-0">Your farm inspection has been completed successfully</p>
+                                <i class="{{ $activity['icon'] }} text-{{ $activity['color'] }} me-2"></i>
+                                <strong>{{ $activity['title'] }}</strong>
+                                <p class="mb-0 text-muted">{{ $activity['description'] }}</p>
                             </div>
-                            <div class="activity-time">2 days ago</div>
+                            <div class="activity-time">{{ $activity['time']->diffForHumans() }}</div>
                         </div>
                     </div>
-
-                    <div class="activity-item">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <strong>Seed Delivery</strong>
-                                <p class="mb-0">Received seeds for planting season</p>
-                            </div>
-                            <div class="activity-time">3 days ago</div>
-                        </div>
+                    @empty
+                    <div class="text-center text-muted py-4">
+                        <i class="fas fa-inbox fa-2x mb-2"></i>
+                        <p>No recent activity</p>
                     </div>
-
-                    <div class="activity-item">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <strong>Training Session</strong>
-                                <p class="mb-0">Attended sustainable farming workshop</p>
-                            </div>
-                            <div class="activity-time">1 week ago</div>
-                        </div>
-                    </div>
+                    @endforelse
                 </div>
             </div>
         </div>
@@ -153,28 +141,38 @@
                     <a href="{{ route('dashboard.farmer.my-farms') }}" class="btn btn-outline-success w-100 mb-2">
                         <i class="fas fa-tractor"></i> View My Farms
                     </a>
-                    <a href="#" class="btn btn-outline-primary w-100 mb-2">
+                    @if($farmer)
+                    <a href="{{ route('farmers.show', $farmer) }}" class="btn btn-outline-primary w-100 mb-2">
                         <i class="fas fa-user"></i> My Profile
                     </a>
-                    <a href="#" class="btn btn-outline-info w-100 mb-2">
+                    @endif
+                    <a href="{{ route('dashboard.farmer.trainings') }}" class="btn btn-outline-info w-100 mb-2">
                         <i class="fas fa-chalkboard-teacher"></i> My Trainings
                     </a>
-                    <a href="#" class="btn btn-outline-warning w-100 mb-2">
+                    <a href="{{ route('dashboard.farmer.distributions') }}" class="btn btn-outline-warning w-100 mb-2">
                         <i class="fas fa-box"></i> My Distributions
+                    </a>
+                    <a href="{{ route('service-requests.index') }}" class="btn btn-outline-secondary w-100 mb-2">
+                        <i class="fas fa-headset"></i> Service Requests
                     </a>
                 </div>
 
                 <div class="mt-4">
                     <h5>Upcoming Events</h5>
                     <div class="mt-2">
+                        @forelse($upcomingEvents ?? [] as $event)
                         <div class="d-flex justify-content-between mb-2">
-                            <span>Next Inspection</span>
-                            <span class="text-primary">Coming Soon</span>
+                            <span>
+                                <i class="fas fa-{{ $event['type'] === 'visit' ? 'calendar-check' : ($event['type'] === 'training' ? 'chalkboard-teacher' : 'tasks') }} text-{{ $event['color'] }} me-1"></i>
+                                {{ Str::limit($event['title'], 20) }}
+                            </span>
+                            <span class="text-{{ $event['color'] }}">{{ $event['date']->format('M d') }}</span>
                         </div>
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Training Session</span>
-                            <span class="text-success">Coming Soon</span>
+                        @empty
+                        <div class="text-center text-muted py-2">
+                            <p class="mb-0">No upcoming events</p>
                         </div>
+                        @endforelse
                     </div>
                 </div>
             </div>

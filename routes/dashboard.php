@@ -51,6 +51,8 @@ Route::middleware(['auth'])->prefix('dashboard')->name('dashboard.')->group(func
         Route::get('/stock', [StockDashboardController::class, 'index'])->name('stock');
         Route::get('/stock/inventory', [StockDashboardController::class, 'inventory'])->name('stock.inventory');
         Route::get('/stock/alerts', [StockDashboardController::class, 'alerts'])->name('stock.alerts');
+        Route::get('/stock/distributions', [StockDashboardController::class, 'distributions'])->name('stock.distributions');
+        Route::get('/stock/requests', [StockDashboardController::class, 'requests'])->name('stock.requests');
     });
 
     // Accountant Dashboard
@@ -79,6 +81,16 @@ Route::middleware(['auth'])->prefix('dashboard')->name('dashboard.')->group(func
         Route::get('/farmer', [FarmerDashboardController::class, 'index'])->name('farmer');
         Route::get('/farmer/my-farms', [FarmerDashboardController::class, 'myFarms'])->name('farmer.my-farms');
         Route::get('/farmer/payments', [FarmerDashboardController::class, 'payments'])->name('farmer.payments');
+        Route::get('/farmer/trainings', [FarmerDashboardController::class, 'myTrainings'])->name('farmer.trainings');
+        Route::get('/farmer/distributions', [FarmerDashboardController::class, 'myDistributions'])->name('farmer.distributions');
+        Route::get('/farmer/service-requests', [FarmerDashboardController::class, 'serviceRequests'])->name('farmer.service-requests');
+        Route::get('/farmer/profile', [FarmerDashboardController::class, 'viewProfile'])->name('farmer.profile.view');
+        Route::get('/farmer/profile/edit', [FarmerDashboardController::class, 'editProfile'])->name('farmer.profile.edit');
+        Route::get('/farmer/farm-records', [FarmerDashboardController::class, 'farmRecords'])->name('farmer.farm-records');
+        Route::get('/farmer/activity-log', [FarmerDashboardController::class, 'myActivityLog'])->name('farmer.activity-log');
+        Route::get('/farmer/harvest-history', [FarmerDashboardController::class, 'harvestHistory'])->name('farmer.harvest-history');
+        Route::get('/farmer/certificates', [FarmerDashboardController::class, 'certificates'])->name('farmer.certificates');
+        Route::get('/farmer/seeds-received', [FarmerDashboardController::class, 'seedsReceived'])->name('farmer.seeds-received');
     });
 
     // Redirect based on role

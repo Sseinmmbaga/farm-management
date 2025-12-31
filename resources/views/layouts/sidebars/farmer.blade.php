@@ -8,11 +8,11 @@
     <span>My Profile</span>
 </div>
 
-<a href="#" class="nav-link">
+<a href="{{ route('dashboard.farmer.profile.view') }}" class="nav-link {{ request()->routeIs('dashboard.farmer.profile.view') ? 'active' : '' }}">
     <i class="fas fa-user"></i> View Profile
 </a>
 
-<a href="#" class="nav-link">
+<a href="{{ route('dashboard.farmer.profile.edit') }}" class="nav-link {{ request()->routeIs('dashboard.farmer.profile.edit') ? 'active' : '' }}">
     <i class="fas fa-edit"></i> Edit Profile
 </a>
 
@@ -25,7 +25,7 @@
     <i class="fas fa-tractor"></i> View My Farms
 </a>
 
-<a href="#" class="nav-link">
+<a href="{{ route('dashboard.farmer.farm-records') }}" class="nav-link {{ request()->routeIs('dashboard.farmer.farm-records') ? 'active' : '' }}">
     <i class="fas fa-clipboard-list"></i> Farm Records
 </a>
 
@@ -34,11 +34,11 @@
     <span>Activity Logs</span>
 </div>
 
-<a href="#" class="nav-link">
+<a href="{{ route('dashboard.farmer.activity-log') }}" class="nav-link {{ request()->routeIs('dashboard.farmer.activity-log') ? 'active' : '' }}">
     <i class="fas fa-history"></i> My Activity Log
 </a>
 
-<a href="#" class="nav-link">
+<a href="{{ route('dashboard.farmer.harvest-history') }}" class="nav-link {{ request()->routeIs('dashboard.farmer.harvest-history') ? 'active' : '' }}">
     <i class="fas fa-leaf"></i> Harvest History
 </a>
 
@@ -47,11 +47,11 @@
     <span>Training</span>
 </div>
 
-<a href="#" class="nav-link">
+<a href="{{ route('dashboard.farmer.trainings') }}" class="nav-link {{ request()->routeIs('dashboard.farmer.trainings') ? 'active' : '' }}">
     <i class="fas fa-chalkboard-teacher"></i> My Trainings
 </a>
 
-<a href="#" class="nav-link">
+<a href="{{ route('dashboard.farmer.certificates') }}" class="nav-link {{ request()->routeIs('dashboard.farmer.certificates') ? 'active' : '' }}">
     <i class="fas fa-certificate"></i> Certificates
 </a>
 
@@ -60,10 +60,10 @@
     <span>Distributions</span>
 </div>
 
-<a href="#" class="nav-link">
+<a href="{{ route('dashboard.farmer.distributions') }}" class="nav-link {{ request()->routeIs('dashboard.farmer.distributions') ? 'active' : '' }}">
     <i class="fas fa-box"></i> My Distributions
 </a>
 
-<a href="#" class="nav-link">
+<a href="{{ route('dashboard.farmer.seeds-received') }}" class="nav-link {{ request()->routeIs('dashboard.farmer.seeds-received') ? 'active' : '' }}">
     <i class="fas fa-seedling"></i> Seeds Received
 </a>

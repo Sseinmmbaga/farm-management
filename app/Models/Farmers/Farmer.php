@@ -19,6 +19,7 @@ class Farmer extends Model
     use HasFactory, SoftDeletes, HasLocation, HasAuditTrail;
 
     protected $fillable = [
+        'user_id',
         'registration_number',
         'first_name',
         'middle_name',
@@ -68,6 +69,11 @@ class Farmer extends Model
     ];
 
     // ==================== RELATIONSHIPS ====================
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function group(): BelongsTo
     {

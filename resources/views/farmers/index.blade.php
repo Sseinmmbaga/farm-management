@@ -12,6 +12,7 @@
                         <h4 class="mb-0">
                             <i class="fas fa-users me-2"></i> Farmers Management
                         </h4>
+                        @if(!auth()->user()->hasViewOnlyAccess())
                         <div class="btn-group">
                             <a href="{{ route('farmers.pending') }}" class="btn btn-warning">
                                 <i class="fas fa-user-clock me-1"></i> Pending Approval
@@ -27,6 +28,7 @@
                                 <i class="fas fa-user-plus me-1"></i> Add New Farmer
                             </a>
                         </div>
+                        @endif
                     </div>
                 </div>
                 
@@ -275,22 +277,24 @@
                                         </td>
                                         <td>
                                             <div class="btn-group btn-group-sm" role="group">
-                                                <a href="{{ route('farmers.show', $farmer) }}" 
-                                                   class="btn btn-outline-primary" 
+                                                <a href="{{ route('farmers.show', $farmer) }}"
+                                                   class="btn btn-outline-primary"
                                                    title="View Details">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                                <a href="{{ route('farmers.edit', $farmer) }}" 
-                                                   class="btn btn-outline-warning" 
+                                                @if(!auth()->user()->hasViewOnlyAccess())
+                                                <a href="{{ route('farmers.edit', $farmer) }}"
+                                                   class="btn btn-outline-warning"
                                                    title="Edit">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <button type="button" 
-                                                        class="btn btn-outline-danger" 
+                                                <button type="button"
+                                                        class="btn btn-outline-danger"
                                                         title="Delete"
                                                         onclick="confirmDelete('{{ route('farmers.destroy', $farmer) }}', '{{ $farmer->first_name }} {{ $farmer->last_name }}')">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>
@@ -300,10 +304,14 @@
                                             <div class="text-muted">
                                                 <i class="fas fa-users fa-3x mb-3"></i>
                                                 <h5>No farmers found</h5>
+                                                @if(!auth()->user()->hasViewOnlyAccess())
                                                 <p>Start by adding your first farmer</p>
                                                 <a href="{{ route('farmers.create') }}" class="btn btn-primary">
                                                     <i class="fas fa-user-plus me-1"></i> Add New Farmer
                                                 </a>
+                                                @else
+                                                <p>No farmers available to view</p>
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>

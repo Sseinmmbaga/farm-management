@@ -4,6 +4,31 @@
 
 @section('content')
 <div class="container-fluid">
+    {{-- Show login credentials if farmer was just created --}}
+    @if(session('credentials') && session('credentials')['password'])
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <h5 class="alert-heading"><i class="fas fa-key me-2"></i>Farmer Login Credentials</h5>
+                <p class="mb-2">Please share these credentials with the farmer so they can log in to the system:</p>
+                <div class="bg-white p-3 rounded border">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong>Email:</strong> <code>{{ session('credentials')['email'] }}</code>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Password:</strong> <code>{{ session('credentials')['password'] }}</code>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <p class="mb-0 small"><i class="fas fa-exclamation-triangle me-1"></i> <strong>Important:</strong> This password will not be shown again. Please note it down or share it with the farmer now.</p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    @endif
+
     <div class="row">
         <div class="col-12">
             <!-- Header with Actions -->
@@ -25,9 +50,11 @@
                     <p class="text-muted mb-0">Farmer ID: {{ $farmer->registration_number }}</p>
                 </div>
                 <div class="btn-group">
+                    @if(!auth()->user()->hasViewOnlyAccess())
                     <a href="{{ route('farmers.edit', $farmer) }}" class="btn btn-warning">
                         <i class="fas fa-edit me-1"></i> Edit
                     </a>
+                    @endif
                     <a href="{{ route('farmers.index') }}" class="btn btn-secondary">
                         <i class="fas fa-arrow-left me-1"></i> Back
                     </a>
@@ -217,9 +244,11 @@
                                     <i class="fas fa-tractor fa-3x text-muted mb-3"></i>
                                     <h5>No farms registered</h5>
                                     <p class="text-muted">This farmer hasn't registered any farms yet.</p>
+                                    @if(!auth()->user()->hasViewOnlyAccess())
                                     <a href="#" class="btn btn-success">
                                         <i class="fas fa-plus me-1"></i> Add Farm
                                     </a>
+                                    @endif
                                 </div>
                             @endif
                         </div>
@@ -297,6 +326,7 @@
                     </div>
                     
                     <!-- Quick Actions -->
+                    @if(!auth()->user()->hasViewOnlyAccess())
                     <div class="card">
                         <div class="card-header bg-secondary text-white">
                             <h5 class="mb-0">
@@ -309,7 +339,7 @@
                                 <a href="#" class="btn btn-outline-primary">
                                     <i class="fas fa-plus me-2"></i> Add Farm
                                 </a>
-                                <a href="#" class="btn btn-outline-success">
+                                <a href="{{ route('farmers.documents.create', $farmer) }}" class="btn btn-outline-success">
                                     <i class="fas fa-file-invoice me-2"></i> Add Document
                                 </a>
                                 <a href="{{ route('farmers.inspections', $farmer) }}" class="btn btn-outline-warning">
@@ -321,6 +351,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>

@@ -35,6 +35,7 @@ class StockTransaction extends Model
         'status',
         'approved_by',
         'approved_at',
+        'created_by',
     ];
 
     protected $casts = [
@@ -73,6 +74,11 @@ class StockTransaction extends Model
     public function approver(): BelongsTo
     {
         return $this->belongsTo(User::class, 'approved_by');
+    }
+
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     // ==================== ACCESSORS ====================

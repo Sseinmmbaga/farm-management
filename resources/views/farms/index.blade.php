@@ -35,9 +35,11 @@
 <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2><i class="fas fa-tractor text-success"></i> Farms Management</h2>
+        @if(!auth()->user()->hasViewOnlyAccess())
         <a href="{{ route('farms.create') }}" class="btn btn-success">
             <i class="fas fa-plus"></i> Add New Farm
         </a>
+        @endif
     </div>
 
     <!-- Filters -->
@@ -105,9 +107,11 @@
                             <a href="{{ route('farms.show', $farm) }}" class="btn btn-sm btn-outline-primary">
                                 <i class="fas fa-eye"></i> View
                             </a>
+                            @if(!auth()->user()->hasViewOnlyAccess())
                             <a href="{{ route('farms.edit', $farm) }}" class="btn btn-sm btn-outline-warning">
                                 <i class="fas fa-edit"></i> Edit
                             </a>
+                            @endif
                             <a href="{{ route('farms.map', $farm) }}" class="btn btn-sm btn-outline-info">
                                 <i class="fas fa-map"></i> Map
                             </a>
@@ -119,7 +123,7 @@
             <div class="col-12">
                 <div class="alert alert-info">
                     <i class="fas fa-info-circle"></i> No farms found.
-                    @if(auth()->user()->can('create', App\Models\Farms\Farm::class))
+                    @if(!auth()->user()->hasViewOnlyAccess() && auth()->user()->can('create', App\Models\Farms\Farm::class))
                         <a href="{{ route('farms.create') }}" class="alert-link">Create your first farm</a>.
                     @endif
                 </div>

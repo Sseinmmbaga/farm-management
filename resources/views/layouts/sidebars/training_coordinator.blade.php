@@ -8,15 +8,15 @@
     <span>Training Programs</span>
 </div>
 
-<a href="#" class="nav-link">
+<a href="{{ route('training-programs.index') }}" class="nav-link {{ request()->routeIs('training-programs.index') ? 'active' : '' }}">
     <i class="fas fa-calendar-check"></i> All Programs
 </a>
 
-<a href="#" class="nav-link">
+<a href="{{ route('training-programs.create') }}" class="nav-link {{ request()->routeIs('training-programs.create') ? 'active' : '' }}">
     <i class="fas fa-plus-circle"></i> Create Program
 </a>
 
-<a href="#" class="nav-link">
+<a href="{{ route('training.sessions.index') }}" class="nav-link {{ request()->routeIs('training.sessions.index') ? 'active' : '' }}">
     <i class="fas fa-calendar-alt"></i> Schedule
 </a>
 
@@ -25,11 +25,11 @@
     <span>Attendance</span>
 </div>
 
-<a href="#" class="nav-link">
+<a href="{{ route('training.attendance.list') }}" class="nav-link {{ request()->routeIs('training.attendance.list') || request()->routeIs('training.attendance.index') ? 'active' : '' }}">
     <i class="fas fa-user-check"></i> Record Attendance
 </a>
 
-<a href="#" class="nav-link">
+<a href="{{ route('training.reports.attendance') }}" class="nav-link {{ request()->routeIs('training.reports.attendance') ? 'active' : '' }}">
     <i class="fas fa-list-alt"></i> Attendance History
 </a>
 
@@ -38,11 +38,11 @@
     <span>Certifications</span>
 </div>
 
-<a href="#" class="nav-link">
+<a href="{{ route('training.completed') }}" class="nav-link {{ request()->routeIs('training.completed') ? 'active' : '' }}">
     <i class="fas fa-certificate"></i> Issue Certificates
 </a>
 
-<a href="#" class="nav-link">
+<a href="{{ route('training.certificates.index') }}" class="nav-link {{ request()->routeIs('training.certificates.index') || request()->routeIs('training.certificates.show') ? 'active' : '' }}">
     <i class="fas fa-award"></i> Certified Farmers
 </a>
 
@@ -60,10 +60,10 @@
     <span>Reports</span>
 </div>
 
-<a href="#" class="nav-link">
+<a href="{{ route('training.reports.summary') }}" class="nav-link {{ request()->routeIs('training.reports.summary') ? 'active' : '' }}">
     <i class="fas fa-chart-bar"></i> Training Reports
 </a>
 
-<a href="#" class="nav-link">
+<a href="{{ route('training.reports.summary') }}" class="nav-link {{ request()->routeIs('training.reports.summary') ? 'active' : '' }}">
     <i class="fas fa-download"></i> Export Reports
 </a>

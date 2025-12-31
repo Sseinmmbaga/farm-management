@@ -11,6 +11,17 @@ use Illuminate\Http\Request;
 
 class VillageController extends Controller
 {
+    public function __construct()
+    {
+        // Restrict CRUD actions for ICS inspectors (view-only access)
+        $this->middleware(function ($request, $next) {
+            if (auth()->user()->isIcsInspector()) {
+                abort(403, 'ICS inspectors have view-only access to catchment areas.');
+            }
+            return $next($request);
+        })->only(['create', 'store', 'edit', 'update', 'destroy']);
+    }
+
     public function index(Request $request)
     {
         $query = Village::with(['region', 'district', 'ward'])

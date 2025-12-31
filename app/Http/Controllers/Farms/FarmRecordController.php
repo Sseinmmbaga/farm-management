@@ -14,6 +14,17 @@ use Illuminate\Support\Facades\DB;
 
 class FarmRecordController extends Controller
 {
+    public function __construct()
+    {
+        // Restrict CRUD actions for ICS inspectors (view-only access)
+        $this->middleware(function ($request, $next) {
+            if (auth()->user()->isIcsInspector()) {
+                abort(403, 'ICS inspectors have view-only access to farm records.');
+            }
+            return $next($request);
+        })->only(['create', 'createNew', 'createExisting', 'store', 'edit', 'update', 'destroy']);
+    }
+
     /**
      * Display a listing of farm records.
      */

@@ -46,6 +46,10 @@
     <i class="fas fa-clipboard-list"></i> All Farm Records
 </a>
 
+<a href="{{ route('visits.index') }}" class="nav-link {{ request()->routeIs('visits.*') ? 'active' : '' }}">
+    <i class="fas fa-calendar-check"></i> Farm Visits
+</a>
+
 <a href="{{ route('farm-records.new.create') }}" class="nav-link {{ request()->routeIs('farm-records.new.create') ? 'active' : '' }}">
     <i class="fas fa-file-alt text-success"></i> New Farmer's Farm Record
 </a>
@@ -67,15 +71,89 @@
     <i class="fas fa-globe-africa"></i> Catchment Areas
 </a>
 
+{{-- Tasks Section --}}
+<div class="nav-section-header">
+    <span>Tasks</span>
+</div>
+
+<a href="{{ route('tasks.my-tasks') }}" class="nav-link {{ request()->routeIs('tasks.my-tasks') ? 'active' : '' }}">
+    <i class="fas fa-tasks"></i> My Tasks
+</a>
+
+<a href="{{ route('tasks.index') }}" class="nav-link {{ request()->routeIs('tasks.index') ? 'active' : '' }}">
+    <i class="fas fa-list-check"></i> All Tasks
+</a>
+
+<a href="{{ route('tasks.calendar') }}" class="nav-link {{ request()->routeIs('tasks.calendar') ? 'active' : '' }}">
+    <i class="fas fa-calendar-alt"></i> Task Calendar
+</a>
+
 {{-- Training Section --}}
 <div class="nav-section-header">
     <span>Training</span>
 </div>
 
-<a href="#" class="nav-link">
-    <i class="fas fa-chalkboard-teacher"></i> My Trainings
+<a href="{{ route('training.upcoming') }}" class="nav-link {{ request()->routeIs('training.upcoming') ? 'active' : '' }}">
+    <i class="fas fa-chalkboard-teacher"></i> Upcoming Trainings
 </a>
 
-<a href="#" class="nav-link">
+<a href="{{ route('training-programs.index') }}" class="nav-link {{ request()->routeIs('training-programs.*') ? 'active' : '' }}">
+    <i class="fas fa-graduation-cap"></i> Training Programs
+</a>
+
+<a href="{{ route('training.certificates.index') }}" class="nav-link {{ request()->routeIs('training.certificates.*') ? 'active' : '' }}">
     <i class="fas fa-certificate"></i> Certificates
+</a>
+
+{{-- Notifications Section --}}
+<div class="nav-section-header">
+    <span>Notifications</span>
+</div>
+
+<a href="{{ route('notifications.index') }}" class="nav-link {{ request()->routeIs('notifications.index') ? 'active' : '' }}">
+    <i class="fas fa-bell"></i> Notification Center
+    @php
+        $unreadCount = auth()->user()->unreadNotifications()->count();
+    @endphp
+    @if($unreadCount > 0)
+        <span class="badge bg-danger rounded-pill ms-auto">{{ $unreadCount > 99 ? '99+' : $unreadCount }}</span>
+    @endif
+</a>
+
+<a href="{{ route('notifications.preferences') }}" class="nav-link {{ request()->routeIs('notifications.preferences') ? 'active' : '' }}">
+    <i class="fas fa-cog"></i> Notification Settings
+</a>
+
+{{-- Service Requests Section --}}
+<div class="nav-section-header">
+    <span>Service Requests</span>
+</div>
+
+<a href="{{ route('service-requests.index') }}" class="nav-link {{ request()->routeIs('service-requests.index') ? 'active' : '' }}">
+    <i class="fas fa-headset"></i> All Requests
+</a>
+
+<a href="{{ route('service-requests.create') }}" class="nav-link {{ request()->routeIs('service-requests.create') ? 'active' : '' }}">
+    <i class="fas fa-plus-circle"></i> New Request
+</a>
+
+{{-- Digital Forms Section --}}
+<div class="nav-section-header">
+    <span>Digital Forms</span>
+</div>
+
+<a href="{{ route('leave-requests.index') }}" class="nav-link {{ request()->routeIs('leave-requests.*') ? 'active' : '' }}">
+    <i class="fas fa-calendar-minus"></i> Leave Requests
+</a>
+
+<a href="{{ route('financial-requests.index') }}" class="nav-link {{ request()->routeIs('financial-requests.*') ? 'active' : '' }}">
+    <i class="fas fa-money-bill-wave"></i> Financial Requests
+</a>
+
+<a href="{{ route('stock-requisitions.index') }}" class="nav-link {{ request()->routeIs('stock-requisitions.*') ? 'active' : '' }}">
+    <i class="fas fa-boxes"></i> Stock Requisitions
+</a>
+
+<a href="{{ route('performance-reports.index') }}" class="nav-link {{ request()->routeIs('performance-reports.*') ? 'active' : '' }}">
+    <i class="fas fa-chart-line"></i> Performance Reports
 </a>

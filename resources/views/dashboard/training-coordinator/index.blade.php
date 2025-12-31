@@ -73,8 +73,8 @@
                     <h5 class="mb-0"><i class="fas fa-chalkboard-teacher me-2"></i>Training Programs</h5>
                 </div>
                 <div class="card-body">
-                    <a href="#" class="btn btn-outline-info w-100 mb-2"><i class="fas fa-list"></i> All Programs</a>
-                    <a href="#" class="btn btn-outline-success w-100"><i class="fas fa-plus"></i> Create Program</a>
+                    <a href="{{ route('training-programs.index') }}" class="btn btn-outline-info w-100 mb-2"><i class="fas fa-list"></i> All Programs</a>
+                    <a href="{{ route('training-programs.create') }}" class="btn btn-outline-success w-100"><i class="fas fa-plus"></i> Create Program</a>
                 </div>
             </div>
         </div>
@@ -84,8 +84,8 @@
                     <h5 class="mb-0"><i class="fas fa-user-check me-2"></i>Attendance & Certification</h5>
                 </div>
                 <div class="card-body">
-                    <a href="#" class="btn btn-outline-success w-100 mb-2"><i class="fas fa-user-check"></i> Record Attendance</a>
-                    <a href="#" class="btn btn-outline-warning w-100"><i class="fas fa-certificate"></i> Issue Certificates</a>
+                    <a href="{{ route('training.attendance.list') }}" class="btn btn-outline-success w-100 mb-2"><i class="fas fa-user-check"></i> Record Attendance</a>
+                    <a href="{{ route('training.certificates.index') }}" class="btn btn-outline-warning w-100"><i class="fas fa-certificate"></i> Issue Certificates</a>
                 </div>
             </div>
         </div>
@@ -98,9 +98,9 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-3"><a href="{{ route('farmers.index') }}" class="btn btn-outline-primary w-100"><i class="fas fa-users"></i> View Farmers</a></div>
-                        <div class="col-md-3"><a href="#" class="btn btn-outline-info w-100"><i class="fas fa-calendar-alt"></i> Schedule</a></div>
-                        <div class="col-md-3"><a href="#" class="btn btn-outline-success w-100"><i class="fas fa-chart-bar"></i> Training Reports</a></div>
-                        <div class="col-md-3"><a href="#" class="btn btn-outline-warning w-100"><i class="fas fa-download"></i> Export Reports</a></div>
+                        <div class="col-md-3"><a href="{{ route('training.sessions.index') }}" class="btn btn-outline-info w-100"><i class="fas fa-calendar-alt"></i> Schedule</a></div>
+                        <div class="col-md-3"><a href="{{ route('training.reports.summary') }}" class="btn btn-outline-success w-100"><i class="fas fa-chart-bar"></i> Training Reports</a></div>
+                        <div class="col-md-3"><a href="{{ route('training.reports.summary') }}" class="btn btn-outline-warning w-100"><i class="fas fa-download"></i> Export Reports</a></div>
                     </div>
                 </div>
             </div>

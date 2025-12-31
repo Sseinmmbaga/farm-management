@@ -74,17 +74,32 @@
                                 </div>
                                 
                                 <div class="mb-3">
-                                    <label for="email" class="form-label">Email Address</label>
-                                    <input type="email" 
-                                           class="form-control @error('email') is-invalid @enderror" 
-                                           id="email" 
-                                           name="email" 
-                                           value="{{ old('email') }}">
+                                    <label for="email" class="form-label">Email Address *</label>
+                                    <input type="email"
+                                           class="form-control @error('email') is-invalid @enderror"
+                                           id="email"
+                                           name="email"
+                                           value="{{ old('email') }}"
+                                           required>
                                     @error('email')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
+                                    <small class="text-muted">Used for farmer login</small>
                                 </div>
-                                
+
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password"
+                                           class="form-control @error('password') is-invalid @enderror"
+                                           id="password"
+                                           name="password"
+                                           minlength="8">
+                                    @error('password')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                    <small class="text-muted">Leave blank to auto-generate a password</small>
+                                </div>
+
                                 <div class="mb-3">
                                     <label for="gender" class="form-label">Gender</label>
                                     <select class="form-select @error('gender') is-invalid @enderror" 

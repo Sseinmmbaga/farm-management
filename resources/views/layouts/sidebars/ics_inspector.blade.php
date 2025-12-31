@@ -8,19 +8,19 @@
     <span>Inspections</span>
 </div>
 
-<a href="#" class="nav-link">
-    <i class="fas fa-clipboard-check"></i> Internal Inspection
+<a href="{{ route('inspections.index') }}" class="nav-link {{ request()->routeIs('inspections.*') ? 'active' : '' }}">
+    <i class="fas fa-clipboard-check"></i> All Inspections
 </a>
 
-<a href="#" class="nav-link">
-    <i class="fas fa-leaf"></i> Social/Environmental
+<a href="{{ route('inspections.create') }}" class="nav-link {{ request()->routeIs('inspections.create') ? 'active' : '' }}">
+    <i class="fas fa-plus-circle"></i> New Inspection
 </a>
 
-<a href="#" class="nav-link">
+<a href="{{ route('findings.index') }}" class="nav-link {{ request()->routeIs('findings.*') ? 'active' : '' }}">
     <i class="fas fa-exclamation-triangle"></i> Non-Conformities
 </a>
 
-<a href="#" class="nav-link">
+<a href="{{ route('corrective-actions.index') }}" class="nav-link {{ request()->routeIs('corrective-actions.*') ? 'active' : '' }}">
     <i class="fas fa-tasks"></i> Corrective Actions
 </a>
 
@@ -29,11 +29,15 @@
     <span>Compliance</span>
 </div>
 
-<a href="#" class="nav-link">
+<a href="{{ route('compliance-standards.index') }}" class="nav-link {{ request()->routeIs('compliance-standards.*') ? 'active' : '' }}">
+    <i class="fas fa-gavel"></i> Compliance Standards
+</a>
+
+<a href="{{ route('ics-reports.compliance') }}" class="nav-link {{ request()->routeIs('ics-reports.compliance') ? 'active' : '' }}">
     <i class="fas fa-file-alt"></i> Compliance Reports
 </a>
 
-<a href="#" class="nav-link">
+<a href="{{ route('certifications.index') }}" class="nav-link {{ request()->routeIs('certifications.*') ? 'active' : '' }}">
     <i class="fas fa-certificate"></i> Certifications
 </a>
 
@@ -67,6 +71,14 @@
     <span>Reports</span>
 </div>
 
-<a href="#" class="nav-link">
+<a href="{{ route('ics-reports.summary') }}" class="nav-link {{ request()->routeIs('ics-reports.summary') ? 'active' : '' }}">
+    <i class="fas fa-chart-pie"></i> Summary Reports
+</a>
+
+<a href="{{ route('export.index') }}" class="nav-link {{ request()->routeIs('export.*') ? 'active' : '' }}">
     <i class="fas fa-download"></i> Export Reports
+</a>
+
+<a href="{{ route('ics-reports.findings') }}" class="nav-link {{ request()->routeIs('ics-reports.findings') ? 'active' : '' }}">
+    <i class="fas fa-exclamation-circle"></i> Findings Report
 </a>

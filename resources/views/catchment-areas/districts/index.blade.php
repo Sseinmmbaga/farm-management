@@ -14,9 +14,11 @@
                     <a href="{{ route('catchment-areas.index') }}" class="btn btn-light btn-sm me-2">
                         <i class="fas fa-arrow-left"></i> Back
                     </a>
+                    @if(!auth()->user()->hasViewOnlyAccess())
                     <a href="{{ route('districts.create') }}" class="btn btn-light">
                         <i class="fas fa-plus me-1"></i> Add District
                     </a>
+                    @endif
                 </div>
             </div>
         </div>
@@ -111,6 +113,7 @@
                                         <a href="{{ route('districts.show', $district) }}" class="btn btn-sm btn-outline-primary" title="View">
                                             <i class="fas fa-eye"></i>
                                         </a>
+                                        @if(!auth()->user()->hasViewOnlyAccess())
                                         <a href="{{ route('districts.edit', $district) }}" class="btn btn-sm btn-outline-warning" title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </a>
@@ -118,6 +121,7 @@
                                                 onclick="confirmDelete('{{ route('districts.destroy', $district) }}', '{{ $district->name }}')">
                                             <i class="fas fa-trash"></i>
                                         </button>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
@@ -126,9 +130,11 @@
                                 <td colspan="8" class="text-center py-4">
                                     <i class="fas fa-city fa-3x text-muted mb-3"></i>
                                     <p class="text-muted">No districts found</p>
+                                    @if(!auth()->user()->hasViewOnlyAccess())
                                     <a href="{{ route('districts.create') }}" class="btn btn-success">
                                         <i class="fas fa-plus me-1"></i> Add First District
                                     </a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforelse

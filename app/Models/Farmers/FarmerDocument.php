@@ -8,6 +8,49 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class FarmerDocument extends Model
 {
+    /**
+     * Document type constants.
+     */
+    const TYPE_NATIONAL_ID = 'national_id';
+    const TYPE_CERTIFICATE = 'certificate';
+    const TYPE_CONTRACT = 'contract';
+    const TYPE_PHOTO = 'photo';
+    const TYPE_LAND_TITLE = 'land_title';
+    const TYPE_ORGANIC_STANDARD_PLAN = 'organic_standard_plan';
+    const TYPE_FARM_BOOK = 'farm_book';
+    const TYPE_ORGANIC_GROUP_RECORD = 'organic_group_record';
+    const TYPE_SOIL_TEST_REPORT = 'soil_test_report';
+    const TYPE_ORGANIC_CERTIFICATE = 'organic_certificate';
+    const TYPE_AUDIT_REPORT = 'audit_report';
+    const TYPE_GROUP_MEMBERSHIP = 'group_membership';
+    const TYPE_TRAINING_CERTIFICATE = 'training_certificate';
+    const TYPE_OTHER = 'other';
+
+    /**
+     * Get all types as key‑label pairs.
+     *
+     * @return array<string, string>
+     */
+    public static function getTypes(): array
+    {
+        return [
+            self::TYPE_NATIONAL_ID => 'National ID (NIDA)',
+            self::TYPE_CERTIFICATE => 'Certificate',
+            self::TYPE_CONTRACT => 'Contract',
+            self::TYPE_PHOTO => 'Photo',
+            self::TYPE_LAND_TITLE => 'Land Title',
+            self::TYPE_ORGANIC_STANDARD_PLAN => 'Organic Standard Plan (OSP)',
+            self::TYPE_FARM_BOOK => 'Farm Book',
+            self::TYPE_ORGANIC_GROUP_RECORD => 'Organic Group Record',
+            self::TYPE_SOIL_TEST_REPORT => 'Soil Test Report',
+            self::TYPE_ORGANIC_CERTIFICATE => 'Organic Certificate',
+            self::TYPE_AUDIT_REPORT => 'Audit Report',
+            self::TYPE_GROUP_MEMBERSHIP => 'Group Membership Document',
+            self::TYPE_TRAINING_CERTIFICATE => 'Training Certificate',
+            self::TYPE_OTHER => 'Other Document',
+        ];
+    }
+
     protected $fillable = [
         'farmer_id',
         'type',
@@ -44,12 +87,20 @@ class FarmerDocument extends Model
     public function getTypeLabelAttribute(): string
     {
         return match($this->type) {
-            'national_id' => 'National ID (NIDA)',
-            'certificate' => 'Certificate',
-            'contract' => 'Contract',
-            'photo' => 'Photo',
-            'land_title' => 'Land Title',
-            'other' => 'Other Document',
+            self::TYPE_NATIONAL_ID => 'National ID (NIDA)',
+            self::TYPE_CERTIFICATE => 'Certificate',
+            self::TYPE_CONTRACT => 'Contract',
+            self::TYPE_PHOTO => 'Photo',
+            self::TYPE_LAND_TITLE => 'Land Title',
+            self::TYPE_ORGANIC_STANDARD_PLAN => 'Organic Standard Plan (OSP)',
+            self::TYPE_FARM_BOOK => 'Farm Book',
+            self::TYPE_ORGANIC_GROUP_RECORD => 'Organic Group Record',
+            self::TYPE_SOIL_TEST_REPORT => 'Soil Test Report',
+            self::TYPE_ORGANIC_CERTIFICATE => 'Organic Certificate',
+            self::TYPE_AUDIT_REPORT => 'Audit Report',
+            self::TYPE_GROUP_MEMBERSHIP => 'Group Membership Document',
+            self::TYPE_TRAINING_CERTIFICATE => 'Training Certificate',
+            self::TYPE_OTHER => 'Other Document',
             default => $this->type,
         };
     }

@@ -204,6 +204,30 @@
         </div>
     </div>
 
+    <!-- Charts Row -->
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i> Farmer Registrations (Last 6 Months)</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="farmerRegistrationsChart" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-boxes me-2"></i> Stock by Category</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="stockByCategoryChart" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Quick Stats Row -->
     <div class="row mt-3">
         <div class="col-md-12">
@@ -648,6 +672,7 @@
 @endsection
 
 @push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Refresh button
@@ -661,6 +686,84 @@
                 }, 1000);
             });
         }
+
+        // Chart data
+        const monthlyData = @json($monthlyRegistrations->map(function($item) {
+            return [
+                'month' => $item->month,
+                'count' => $item->count,
+            ];
+        }));
+        const stockData = @json($stockByCategory->map(function($item) {
+            return [
+                'category' => $item->category?->name ?? 'Uncategorized',
+                'count' => $item->count,
+                'quantity' => $item->total_quantity,
+            ];
+        }));
+
+        // Farmer Registrations Chart
+        const farmerCtx = document.getElementById('farmerRegistrationsChart').getContext('2d');
+        new Chart(farmerCtx, {
+            type: 'line',
+            data: {
+                labels: monthlyData.map(d => d.month),
+                datasets: [{
+                    label: 'Farmer Registrations',
+                    data: monthlyData.map(d => d.count),
+                    borderColor: '#3498db',
+                    backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Number of Farmers' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Month' }
+                    }
+                }
+            }
+        });
+
+        // Stock by Category Chart
+        const stockCtx = document.getElementById('stockByCategoryChart').getContext('2d');
+        new Chart(stockCtx, {
+            type: 'bar',
+            data: {
+                labels: stockData.map(d => d.category),
+                datasets: [{
+                    label: 'Item Count',
+                    data: stockData.map(d => d.count),
+                    backgroundColor: '#2ecc71',
+                    borderColor: '#27ae60',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Number of Items' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Category' }
+                    }
+                }
+            }
+        });
     });
 </script>
 @endpush

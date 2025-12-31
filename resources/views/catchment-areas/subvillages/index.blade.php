@@ -14,9 +14,11 @@
                     <a href="{{ route('catchment-areas.index') }}" class="btn btn-light btn-sm me-2">
                         <i class="fas fa-arrow-left"></i> Back
                     </a>
+                    @if(!auth()->user()->hasViewOnlyAccess())
                     <a href="{{ route('subvillages.create') }}" class="btn btn-light">
                         <i class="fas fa-plus me-1"></i> Add Subvillage
                     </a>
+                    @endif
                 </div>
             </div>
         </div>
@@ -115,6 +117,7 @@
                                         <a href="{{ route('subvillages.show', $subvillage) }}" class="btn btn-sm btn-outline-primary" title="View">
                                             <i class="fas fa-eye"></i>
                                         </a>
+                                        @if(!auth()->user()->hasViewOnlyAccess())
                                         <a href="{{ route('subvillages.edit', $subvillage) }}" class="btn btn-sm btn-outline-warning" title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </a>
@@ -122,6 +125,7 @@
                                                 onclick="confirmDelete('{{ route('subvillages.destroy', $subvillage) }}', '{{ $subvillage->name }}')">
                                             <i class="fas fa-trash"></i>
                                         </button>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
@@ -130,9 +134,11 @@
                                 <td colspan="8" class="text-center py-4">
                                     <i class="fas fa-map-pin fa-3x text-muted mb-3"></i>
                                     <p class="text-muted">No subvillages found</p>
+                                    @if(!auth()->user()->hasViewOnlyAccess())
                                     <a href="{{ route('subvillages.create') }}" class="btn btn-info">
                                         <i class="fas fa-plus me-1"></i> Add First Subvillage
                                     </a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforelse

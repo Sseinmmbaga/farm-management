@@ -232,8 +232,6 @@ class FindingController extends Controller
      */
     public function report()
     {
-        $this->authorize('viewAny', InspectionFinding::class);
-        
         // Get findings statistics
         $stats = [
             'total' => InspectionFinding::count(),
@@ -245,13 +243,43 @@ class FindingController extends Controller
             'critical' => InspectionFinding::where('severity', 'critical')->count(),
             'observation' => InspectionFinding::where('severity', 'observation')->count(),
         ];
-        
+
         // Get recent findings
         $recentFindings = InspectionFinding::with(['inspection', 'inspection.farmer'])
             ->latest()
             ->take(10)
             ->get();
-        
+
         return view('ics.reports.findings', compact('stats', 'recentFindings'));
+    }
+
+    /**
+     * Reopen a resolved finding.
+     */
+    public function reopen(InspectionFinding $finding)
+    {
+        if ($finding->status !== 'resolved' && $finding->status !== 'closed') {
+            return back()->with('error', 'Only resolved or closed findings can be reopened.');
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $finding->update([
+                'status' => 'open',
+                'resolved_at' => null,
+                'resolved_by' => null,
+                'resolution_notes' => $finding->resolution_notes . "\n[Reopened on " . now()->format('Y-m-d H:i') . " by " . Auth::user()->name . "]",
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('findings.show', $finding)
+                ->with('success', 'Finding reopened successfully!');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Failed to reopen finding: ' . $e->getMessage());
+        }
     }
 }

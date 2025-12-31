@@ -77,12 +77,15 @@
                     <a href="{{ route('farms.index') }}" class="btn btn-outline-secondary">
                         <i class="fas fa-arrow-left"></i> Back to Farms
                     </a>
+                    @if(!auth()->user()->hasViewOnlyAccess())
                     <a href="{{ route('farms.edit', $farm) }}" class="btn btn-warning">
                         <i class="fas fa-edit"></i> Edit
                     </a>
+                    @endif
                     <a href="{{ route('farms.map', $farm) }}" class="btn btn-info">
                         <i class="fas fa-map"></i> Map
                     </a>
+                    @if(!auth()->user()->hasViewOnlyAccess())
                     <form method="POST" action="{{ route('farms.destroy', $farm) }}"
                           onsubmit="return confirm('Are you sure you want to delete this farm?');"
                           style="display: inline;">
@@ -92,6 +95,7 @@
                             <i class="fas fa-trash"></i> Delete
                         </button>
                     </form>
+                    @endif
                 </div>
             </div>
         </div>
@@ -291,6 +295,7 @@
                     <h4><i class="fas fa-bolt"></i> Quick Actions</h4>
 
                     <div class="d-grid gap-2">
+                        @if(!auth()->user()->hasViewOnlyAccess())
                         <a href="{{ route('farms.edit', $farm) }}" class="btn btn-outline-warning">
                             <i class="fas fa-edit"></i> Edit Farm Details
                         </a>
@@ -302,6 +307,7 @@
                         <a href="#" class="btn btn-outline-success">
                             <i class="fas fa-plus"></i> Add Season
                         </a>
+                        @endif
 
                         <a href="{{ route('farms.map', $farm) }}" class="btn btn-outline-primary">
                             <i class="fas fa-map"></i> View on Map

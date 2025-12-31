@@ -14,6 +14,12 @@ require __DIR__.'/ics.php';
 require __DIR__.'/logs.php';
 require __DIR__.'/reports.php';
 require __DIR__.'/stock.php';
+require __DIR__.'/service-requests.php';
+require __DIR__.'/leave-requests.php';
+require __DIR__.'/financial-requests.php';
+require __DIR__.'/stock-requisitions.php';
+require __DIR__.'/performance-reports.php';
+require __DIR__.'/visits.php';
 require __DIR__.'/training.php';
 require __DIR__.'/assets.php';
 require __DIR__.'/field-entries.php';  // Add field entries routes
@@ -21,6 +27,7 @@ require __DIR__.'/tasks.php';  // Task & Labor Management (Phase 4)
 require __DIR__.'/catchment-areas.php';  // Catchment Areas (Locations)
 require __DIR__.'/users.php';  // User Management
 require __DIR__.'/settings.php';  // System Settings
+require __DIR__.'/notifications.php';  // Notification Center
 
 // API routes for dynamic dropdowns
 Route::get('/api/districts', function () {

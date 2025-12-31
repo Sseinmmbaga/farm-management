@@ -15,12 +15,16 @@
     <i class="fas fa-chart-line"></i> Analytics
 </a>
 
-<a href="#" class="nav-link">
+<a href="{{ route('stock.index') }}" class="nav-link {{ request()->routeIs('stock.*') || request()->routeIs('stock-categories.*') ? 'active' : '' }}">
     <i class="fas fa-box"></i> Inventory
 </a>
 
 <a href="{{ route('seasons.index') }}" class="nav-link {{ request()->routeIs('seasons.*') ? 'active' : '' }}">
     <i class="fas fa-calendar-alt"></i> Seasons
+</a>
+
+<a href="{{ route('visits.index') }}" class="nav-link {{ request()->routeIs('visits.*') ? 'active' : '' }}">
+    <i class="fas fa-calendar-check"></i> Farm Visits
 </a>
 
 <a href="{{ route('users.index') }}" class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
@@ -168,17 +172,29 @@
     <span><i class="fas fa-boxes text-secondary"></i> Stock Manager</span>
 </a>
 <div class="collapse collapse-menu" id="stockMenu">
-    <a href="#" class="nav-link">
-        <i class="fas fa-warehouse"></i> Inventory
+    <a href="{{ route('stock.index') }}" class="nav-link">
+        <i class="fas fa-warehouse"></i> Stock Items
     </a>
-    <a href="#" class="nav-link">
+    <a href="{{ route('stock-categories.index') }}" class="nav-link">
+        <i class="fas fa-tags"></i> Categories
+    </a>
+    <a href="{{ route('stock.transactions.index') }}" class="nav-link">
         <i class="fas fa-dolly"></i> Stock Movements
     </a>
-    <a href="#" class="nav-link">
-        <i class="fas fa-truck"></i> Deliveries
+    <a href="{{ route('stock.transactions.intake') }}" class="nav-link">
+        <i class="fas fa-arrow-down"></i> Stock Intake
     </a>
-    <a href="#" class="nav-link">
-        <i class="fas fa-seedling"></i> Seed Distribution
+    <a href="{{ route('stock.transactions.issuance') }}" class="nav-link">
+        <i class="fas fa-arrow-up"></i> Stock Issuance
+    </a>
+    <a href="{{ route('stock.distributions.index') }}" class="nav-link">
+        <i class="fas fa-truck"></i> Distributions
+    </a>
+    <a href="{{ route('stock.requests.index') }}" class="nav-link">
+        <i class="fas fa-inbox"></i> Requests
+    </a>
+    <a href="{{ route('stock.reports.summary') }}" class="nav-link">
+        <i class="fas fa-chart-bar"></i> Reports
     </a>
 </div>
 
@@ -187,14 +203,20 @@
     <span><i class="fas fa-chalkboard-teacher text-purple"></i> Training Coordinator</span>
 </a>
 <div class="collapse collapse-menu" id="trainingMenu">
-    <a href="#" class="nav-link">
-        <i class="fas fa-calendar-check"></i> Training Programs
+    <a href="{{ route('training-programs.index') }}" class="nav-link {{ request()->routeIs('training-programs.*') ? 'active' : '' }}">
+        <i class="fas fa-graduation-cap"></i> Training Programs
     </a>
-    <a href="#" class="nav-link">
-        <i class="fas fa-user-graduate"></i> Training Records
+    <a href="{{ route('training.upcoming') }}" class="nav-link {{ request()->routeIs('training.upcoming') ? 'active' : '' }}">
+        <i class="fas fa-calendar-alt"></i> Upcoming Sessions
     </a>
-    <a href="#" class="nav-link">
-        <i class="fas fa-certificate"></i> Certifications
+    <a href="{{ route('training.completed') }}" class="nav-link {{ request()->routeIs('training.completed') ? 'active' : '' }}">
+        <i class="fas fa-calendar-check"></i> Completed Sessions
+    </a>
+    <a href="{{ route('training.certificates.index') }}" class="nav-link {{ request()->routeIs('training.certificates.*') ? 'active' : '' }}">
+        <i class="fas fa-certificate"></i> Certificates
+    </a>
+    <a href="{{ route('training.reports.summary') }}" class="nav-link {{ request()->routeIs('training.reports.*') ? 'active' : '' }}">
+        <i class="fas fa-chart-bar"></i> Training Reports
     </a>
 </div>
 

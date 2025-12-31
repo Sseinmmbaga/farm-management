@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Admin Dashboard') - Remei Farm OS</title>
 
     <!-- Bootstrap 5 CSS -->
@@ -540,10 +541,7 @@
                 </nav>
             </div>
             <div class="topbar-right">
-                <div class="topbar-icon">
-                    <i class="fas fa-bell"></i>
-                    <span class="badge bg-danger rounded-pill">3</span>
-                </div>
+                @include('partials.notification-dropdown')
                 <div class="topbar-icon">
                     <i class="fas fa-envelope"></i>
                     <span class="badge bg-primary rounded-pill">5</span>

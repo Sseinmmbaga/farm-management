@@ -14,9 +14,11 @@
                     <a href="{{ route('catchment-areas.index') }}" class="btn btn-light btn-sm me-2">
                         <i class="fas fa-arrow-left"></i> Back
                     </a>
+                    @if(!auth()->user()->hasViewOnlyAccess())
                     <a href="{{ route('regions.create') }}" class="btn btn-light">
                         <i class="fas fa-plus me-1"></i> Add Region
                     </a>
+                    @endif
                 </div>
             </div>
         </div>
@@ -99,6 +101,7 @@
                                         <a href="{{ route('regions.show', $region) }}" class="btn btn-sm btn-outline-primary" title="View">
                                             <i class="fas fa-eye"></i>
                                         </a>
+                                        @if(!auth()->user()->hasViewOnlyAccess())
                                         <a href="{{ route('regions.edit', $region) }}" class="btn btn-sm btn-outline-warning" title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </a>
@@ -106,6 +109,7 @@
                                                 onclick="confirmDelete('{{ route('regions.destroy', $region) }}', '{{ $region->name }}')">
                                             <i class="fas fa-trash"></i>
                                         </button>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
@@ -114,9 +118,11 @@
                                 <td colspan="8" class="text-center py-4">
                                     <i class="fas fa-map fa-3x text-muted mb-3"></i>
                                     <p class="text-muted">No regions found</p>
+                                    @if(!auth()->user()->hasViewOnlyAccess())
                                     <a href="{{ route('regions.create') }}" class="btn btn-primary">
                                         <i class="fas fa-plus me-1"></i> Add First Region
                                     </a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforelse

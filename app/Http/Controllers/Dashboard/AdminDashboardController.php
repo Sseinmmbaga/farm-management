@@ -134,6 +134,18 @@ class AdminDashboardController extends Controller
             'logs_recorded' => ActivityLog::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count(),
         ];
 
+        // Chart data
+        $monthlyRegistrations = Farmer::selectRaw('strftime("%Y-%m", created_at) as month, COUNT(*) as count')
+            ->groupBy('month')
+            ->orderBy('month', 'desc')
+            ->take(6)
+            ->get();
+
+        $stockByCategory = \App\Models\Stock\StockItem::with('category')
+            ->selectRaw('category_id, COUNT(*) as count, SUM(current_quantity) as total_quantity')
+            ->groupBy('category_id')
+            ->get();
+
         return view('dashboard.admin.index', compact(
             'stats',
             'recentFarmers',
@@ -148,7 +160,9 @@ class AdminDashboardController extends Controller
             'upcomingInspections',
             'upcomingTrainings',
             'alerts',
-            'thisWeekStats'
+            'thisWeekStats',
+            'monthlyRegistrations',
+            'stockByCategory'
         ));
     }
 

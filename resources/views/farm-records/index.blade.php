@@ -58,6 +58,7 @@
 <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2><i class="fas fa-clipboard-list text-success"></i> Farm Records</h2>
+        @if(!auth()->user()->hasViewOnlyAccess())
         <div class="btn-group">
             <a href="{{ route('farm-records.new.create') }}" class="btn btn-success">
                 <i class="fas fa-plus"></i> New Farm Record (Form 2)
@@ -66,6 +67,7 @@
                 <i class="fas fa-plus"></i> Existing Farm Record (Form 3)
             </a>
         </div>
+        @endif
     </div>
 
     <!-- Filters -->
@@ -161,6 +163,7 @@
                             <a href="{{ route('farm-records.show', $record) }}" class="btn btn-sm btn-outline-primary">
                                 <i class="fas fa-eye"></i> View
                             </a>
+                            @if(!auth()->user()->hasViewOnlyAccess())
                             <a href="{{ route('farm-records.edit', $record) }}" class="btn btn-sm btn-outline-warning">
                                 <i class="fas fa-edit"></i> Edit
                             </a>
@@ -172,6 +175,7 @@
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </form>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -180,8 +184,10 @@
             <div class="col-12">
                 <div class="alert alert-info">
                     <i class="fas fa-info-circle"></i> No farm records found.
+                    @if(!auth()->user()->hasViewOnlyAccess())
                     <a href="{{ route('farm-records.new.create') }}" class="alert-link">Create a new farm record</a> or
                     <a href="{{ route('farm-records.existing.create') }}" class="alert-link">record an existing farm</a>.
+                    @endif
                 </div>
             </div>
         @endforelse

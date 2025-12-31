@@ -23,7 +23,8 @@ class StoreFarmerRequest extends FormRequest
             'date_of_birth' => ['nullable', 'date', 'before:today'],
             'phone' => ['required', 'string', 'max:20'],
             'phone_alt' => ['nullable', 'string', 'max:20'],
-            'email' => ['nullable', 'email', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+            'password' => ['nullable', 'string', 'min:8'],
             'spouse_name' => ['nullable', 'string', 'max:255'],
             'spouse_title' => ['nullable', 'string', 'max:255'],
 
@@ -103,6 +104,9 @@ class StoreFarmerRequest extends FormRequest
         // Generate registration number
         $validated['registration_number'] = Farmer::generateRegistrationNumber();
         $validated['registration_date'] = now();
+
+        // Keep password in validated data for FarmerService to use
+        // It will be used to create the User account
 
         return $validated;
     }

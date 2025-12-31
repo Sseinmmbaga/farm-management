@@ -200,10 +200,10 @@ class CorrectiveActionController extends Controller
         if ($action->status !== 'completed') {
             return back()->with('error', 'Only completed corrective actions can be verified.');
         }
-        
+
         try {
             DB::beginTransaction();
-            
+
             $action->update([
                 'status' => 'verified',
                 'verified' => true,
@@ -212,15 +212,46 @@ class CorrectiveActionController extends Controller
                 'verification_notes' => request('verification_notes'),
                 'is_effective' => request('is_effective', true),
             ]);
-            
+
             DB::commit();
-            
+
             return redirect()->route('corrective-actions.show', $action)
                 ->with('success', 'Corrective action verified successfully!');
-                
+
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Failed to verify corrective action: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Add a comment to a corrective action.
+     */
+    public function addComment(Request $request, CorrectiveAction $action)
+    {
+        $validated = $request->validate([
+            'comment' => 'required|string|max:1000',
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            // Append comment to verification notes or a comments field
+            $existingNotes = $action->verification_notes ?? '';
+            $newComment = "\n[" . now()->format('Y-m-d H:i') . " - " . Auth::user()->name . "]: " . $validated['comment'];
+
+            $action->update([
+                'verification_notes' => $existingNotes . $newComment,
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('corrective-actions.show', $action)
+                ->with('success', 'Comment added successfully!');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Failed to add comment: ' . $e->getMessage());
         }
     }
 }
