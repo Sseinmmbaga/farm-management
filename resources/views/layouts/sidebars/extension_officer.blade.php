@@ -97,7 +97,7 @@
     <i class="fas fa-chalkboard-teacher"></i> Upcoming Trainings
 </a>
 
-<a href="{{ route('training-programs.index') }}" class="nav-link {{ request()->routeIs('training-programs.*') ? 'active' : '' }}">
+<a href="{{ route('training.programs.index') }}" class="nav-link {{ request()->routeIs('training.programs.*') ? 'active' : '' }}">
     <i class="fas fa-graduation-cap"></i> Training Programs
 </a>
 
