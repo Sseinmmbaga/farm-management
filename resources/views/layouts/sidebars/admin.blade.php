@@ -31,6 +31,19 @@
     <i class="fas fa-users-cog"></i> User Management
 </a>
 
+{{-- ICS Forms Section --}}
+<div class="nav-section-header">
+    <span>ICS Forms</span>
+</div>
+
+<a href="{{ route('farmer-forms.index') }}" class="nav-link {{ request()->routeIs('farmer-forms.index') ? 'active' : '' }}">
+    <i class="fas fa-file-alt"></i> All Forms
+</a>
+
+<a href="{{ route('farmer-forms.select-farmer') }}" class="nav-link {{ request()->routeIs('farmer-forms.select-farmer') ? 'active' : '' }}">
+    <i class="fas fa-plus-circle"></i> New Form Entry
+</a>
+
 {{-- Role Quick Access Section --}}
 <div class="nav-section-header">
     <span>Role Quick Access</span>
@@ -203,7 +216,7 @@
     <span><i class="fas fa-chalkboard-teacher text-purple"></i> Training Coordinator</span>
 </a>
 <div class="collapse collapse-menu" id="trainingMenu">
-    <a href="{{ route('training-programs.index') }}" class="nav-link {{ request()->routeIs('training-programs.*') ? 'active' : '' }}">
+    <a href="{{ route('training.programs.index') }}" class="nav-link {{ request()->routeIs('training.programs.*') ? 'active' : '' }}">
         <i class="fas fa-graduation-cap"></i> Training Programs
     </a>
     <a href="{{ route('training.upcoming') }}" class="nav-link {{ request()->routeIs('training.upcoming') ? 'active' : '' }}">

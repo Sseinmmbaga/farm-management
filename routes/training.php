@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth'])->group(function () {
 
     // Training Programs (CRUD)
-    Route::resource('training-programs', TrainingController::class);
+    Route::resource('training-programs', TrainingController::class)->names('training.programs');
 
     // Training Sessions (CRUD)
     Route::resource('training-sessions', SessionController::class)->names('training.sessions');

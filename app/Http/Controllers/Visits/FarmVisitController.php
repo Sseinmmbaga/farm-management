@@ -9,6 +9,7 @@ use App\Models\Farms\FarmVisit;
 use App\Models\Farms\Farm;
 use App\Models\Farmers\Farmer;
 use App\Models\User;
+use App\Enums\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -33,9 +34,11 @@ class FarmVisitController extends Controller
 
         $farms = Farm::active()->get(['id', 'code', 'name']);
         $farmers = Farmer::active()->get(['id', 'first_name', 'last_name', 'registration_number']);
-        $supervisors = User::whereHas('roles', function ($q) {
-            $q->whereIn('name', ['supervisor', 'extension_officer', 'admin']);
-        })->get(['id', 'name', 'email']);
+        $supervisors = User::whereIn('role', [
+            UserRole::SUPERVISOR,
+            UserRole::EXTENSION_OFFICER,
+            UserRole::ADMIN,
+        ])->get(['id', 'name', 'email']);
 
         return view('visits.index', compact('visits', 'farms', 'farmers', 'supervisors'));
     }
@@ -47,9 +50,11 @@ class FarmVisitController extends Controller
     {
         $farms = Farm::active()->get(['id', 'code', 'name']);
         $farmers = Farmer::active()->get(['id', 'first_name', 'last_name', 'registration_number']);
-        $supervisors = User::whereHas('roles', function ($q) {
-            $q->whereIn('name', ['supervisor', 'extension_officer', 'admin']);
-        })->get(['id', 'name', 'email']);
+        $supervisors = User::whereIn('role', [
+            UserRole::SUPERVISOR,
+            UserRole::EXTENSION_OFFICER,
+            UserRole::ADMIN,
+        ])->get(['id', 'name', 'email']);
 
         return view('visits.create', compact('farms', 'farmers', 'supervisors'));
     }
@@ -107,9 +112,11 @@ class FarmVisitController extends Controller
         $visit = FarmVisit::findOrFail($id);
         $farms = Farm::active()->get(['id', 'code', 'name']);
         $farmers = Farmer::active()->get(['id', 'first_name', 'last_name', 'registration_number']);
-        $supervisors = User::whereHas('roles', function ($q) {
-            $q->whereIn('name', ['supervisor', 'extension_officer', 'admin']);
-        })->get(['id', 'name', 'email']);
+        $supervisors = User::whereIn('role', [
+            UserRole::SUPERVISOR,
+            UserRole::EXTENSION_OFFICER,
+            UserRole::ADMIN,
+        ])->get(['id', 'name', 'email']);
 
         return view('visits.edit', compact('visit', 'farms', 'farmers', 'supervisors'));
     }

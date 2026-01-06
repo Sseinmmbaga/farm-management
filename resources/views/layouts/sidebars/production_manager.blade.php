@@ -50,6 +50,15 @@
     <i class="fas fa-map-marked-alt"></i> Map View
 </a>
 
+{{-- ICS Forms Section --}}
+<div class="nav-section-header">
+    <span>ICS Forms</span>
+</div>
+
+<a href="{{ route('farmer-forms.index') }}" class="nav-link {{ request()->routeIs('farmer-forms.index') ? 'active' : '' }}">
+    <i class="fas fa-file-alt"></i> All Forms
+</a>
+
 {{-- Reports Section --}}
 <div class="nav-section-header">
     <span>Reports</span>

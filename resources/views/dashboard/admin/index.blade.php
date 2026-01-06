@@ -634,7 +634,7 @@
             <div class="recent-activity h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="mb-0">Upcoming Trainings</h4>
-                    <a href="{{ route('training.index') }}" class="btn btn-sm btn-outline-info">
+                    <a href="{{ route('training.sessions.index') }}" class="btn btn-sm btn-outline-info">
                         <i class="fas fa-list"></i> View All
                     </a>
                 </div>
@@ -688,19 +688,8 @@
         }
 
         // Chart data
-        const monthlyData = @json($monthlyRegistrations->map(function($item) {
-            return [
-                'month' => $item->month,
-                'count' => $item->count,
-            ];
-        }));
-        const stockData = @json($stockByCategory->map(function($item) {
-            return [
-                'category' => $item->category?->name ?? 'Uncategorized',
-                'count' => $item->count,
-                'quantity' => $item->total_quantity,
-            ];
-        }));
+        const monthlyData = @json($monthlyRegistrations);
+        const stockData = @json($stockByCategory);
 
         // Farmer Registrations Chart
         const farmerCtx = document.getElementById('farmerRegistrationsChart').getContext('2d');

@@ -28,6 +28,7 @@ require __DIR__.'/catchment-areas.php';  // Catchment Areas (Locations)
 require __DIR__.'/users.php';  // User Management
 require __DIR__.'/settings.php';  // System Settings
 require __DIR__.'/notifications.php';  // Notification Center
+require __DIR__.'/farmer-forms.php';  // Farmer Forms (12 ICS Forms)
 
 // API routes for dynamic dropdowns
 Route::get('/api/districts', function () {

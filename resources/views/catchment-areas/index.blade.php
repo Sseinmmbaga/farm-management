@@ -18,7 +18,7 @@
                 <!-- Summary Stats -->
                 <div class="card-body bg-light">
                     <div class="row">
-                        <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="col-md-2 col-sm-6 mb-3">
                             <div class="card border-primary h-100">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-center">
@@ -36,7 +36,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="col-md-2 col-sm-6 mb-3">
                             <div class="card border-success h-100">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-center">
@@ -54,7 +54,25 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="col-md-2 col-sm-6 mb-3">
+                            <div class="card h-100" style="border-color: #6f42c1;">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="text-muted mb-1">Wards</h6>
+                                            <h3 class="mb-0">{{ $stats['wards'] }}</h3>
+                                        </div>
+                                        <div class="text-white rounded-circle p-3" style="background-color: #6f42c1;">
+                                            <i class="fas fa-map-marker-alt fa-2x"></i>
+                                        </div>
+                                    </div>
+                                    <a href="{{ route('wards.index') }}" class="btn btn-sm mt-2 w-100" style="border-color: #6f42c1; color: #6f42c1;">
+                                        {{ auth()->user()->hasViewOnlyAccess() ? 'View' : 'Manage' }} Wards
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-6 mb-3">
                             <div class="card border-warning h-100">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-center">
@@ -72,7 +90,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="col-md-2 col-sm-6 mb-3">
                             <div class="card border-info h-100">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-center">

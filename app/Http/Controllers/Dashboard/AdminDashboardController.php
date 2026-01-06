@@ -134,17 +134,25 @@ class AdminDashboardController extends Controller
             'logs_recorded' => ActivityLog::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count(),
         ];
 
-        // Chart data
+        // Chart data - prepared for JSON output
         $monthlyRegistrations = Farmer::selectRaw('strftime("%Y-%m", created_at) as month, COUNT(*) as count')
             ->groupBy('month')
             ->orderBy('month', 'desc')
             ->take(6)
-            ->get();
+            ->get()
+            ->map(fn($item) => ['month' => $item->month, 'count' => $item->count])
+            ->values();
 
         $stockByCategory = \App\Models\Stock\StockItem::with('category')
-            ->selectRaw('category_id, COUNT(*) as count, SUM(current_quantity) as total_quantity')
+            ->selectRaw('category_id, COUNT(*) as count, SUM(quantity_available) as total_quantity')
             ->groupBy('category_id')
-            ->get();
+            ->get()
+            ->map(fn($item) => [
+                'category' => optional($item->category)->name ?? 'Uncategorized',
+                'count' => $item->count,
+                'quantity' => $item->total_quantity,
+            ])
+            ->values();
 
         return view('dashboard.admin.index', compact(
             'stats',

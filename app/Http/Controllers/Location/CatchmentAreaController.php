@@ -16,6 +16,7 @@ class CatchmentAreaController extends Controller
         $stats = [
             'regions' => Region::count(),
             'districts' => District::count(),
+            'wards' => Ward::count(),
             'villages' => Village::count(),
             'subvillages' => Subvillage::count(),
         ];

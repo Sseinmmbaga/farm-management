@@ -6,6 +6,7 @@ use App\Http\Controllers\Location\RegionController;
 use App\Http\Controllers\Location\DistrictController;
 use App\Http\Controllers\Location\VillageController;
 use App\Http\Controllers\Location\SubvillageController;
+use App\Http\Controllers\Location\WardController;
 use App\Models\Location\Ward;
 
 Route::middleware(['auth'])->group(function () {
@@ -17,6 +18,9 @@ Route::middleware(['auth'])->group(function () {
 
     // Districts
     Route::resource('districts', DistrictController::class);
+
+    // Wards
+    Route::resource('wards', WardController::class);
 
     // Villages
     Route::resource('villages', VillageController::class);
